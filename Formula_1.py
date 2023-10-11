@@ -7,7 +7,7 @@ pg.init()
 size=(1500,750)
 screen = pg.display.set_mode(size)
 pg.display.set_caption("Gran Turismo 7")
-fps = 0
+fps = 60
 clock = pg.time.Clock()
 
 car = pg.image.load('Yellow.png')
@@ -70,6 +70,8 @@ x_money=random.randint(350,1150)
 
 racers=[c_rect_enemy_1,c_rect_enemy_2,c_rect_enemy_3,c_rect_enemy_4,c_rect_enemy_5]
 
+speed_car=30
+
 while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -131,23 +133,23 @@ while True:
                 c_rect_enemy_2.y+=10
 
         if keys[pg.K_SPACE]:
-            if fps<100:
-                fps+=0.5
+            if speed_car<50:
+                speed_car+=0.25
                 c_rect_enemy_1.y-=40
                 c_rect_enemy_2.y-=20
                 c_rect_enemy_3.y-=70
                 c_rect_enemy_4.y-=30
                 c_rect_enemy_5.y-=70
-            elif fps<300 and fps>=100:
-                fps+=0.1
+            elif speed_car<150 and speed_car>=50:
+                speed_car+=0.05
                 c_rect_enemy_1.y+=3
                 c_rect_enemy_2.y+=10
                 c_rect_enemy_3.y+=4
                 c_rect_enemy_4.y+=7
                 c_rect_enemy_5.y+=5
-            elif fps>=300:
-                fps=300
-                fps+=0.01
+            elif speed_car>=150:
+                speed_car=150
+                speed_car+=0.005
                 c_rect_enemy_1.y+=5
                 c_rect_enemy_2.y+=12
                 c_rect_enemy_3.y+=6
@@ -159,24 +161,24 @@ while True:
             c_rect_enemy_3.y-=70
             c_rect_enemy_4.y-=30
             c_rect_enemy_5.y-=70
-            if fps<10:
-                fps+=5
-            elif fps<30:
-                fps+=3
-            elif fps<45:
-                fps+=1
-            elif fps<60:
-                fps+=0.5
+            if speed_car<5:
+                speed_car+=2.5
+            elif speed_car<15:
+                speed_car+=1.5
+            elif speed_car<27.5:
+                speed_car+=0.
+            elif speed_car<30:
+                speed_car+=0.25
             else:
-                fps=60
-        gran(line_1,line_2,line_3,line_4,line_5,money_test)
+                speed_car=30
+        gran(line_1,line_2,line_3,line_4,line_5,money_test, speed_car)
     else:
-        fps=0
-        c_rect_enemy_1.y-=40
-        c_rect_enemy_2.y-=20
-        c_rect_enemy_3.y-=70
-        c_rect_enemy_4.y-=30
-        c_rect_enemy_5.y-=70
+        speed_car=0
+        c_rect_enemy_1.y-=80
+        c_rect_enemy_2.y-=40
+        c_rect_enemy_3.y-=140
+        c_rect_enemy_4.y-=60
+        c_rect_enemy_5.y-=140
 
                 
 
@@ -186,7 +188,7 @@ while True:
 
 
     speedometr('Speed:',1300,100)
-    speedometr(f'{int(fps)}',1300,150)
+    speedometr(f'{int(speed_car*2)}',1300,150)
     pg.display.flip()
     clock.tick(fps)
 

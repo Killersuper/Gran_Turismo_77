@@ -7,7 +7,7 @@ pg.init()
 size=(1500,750)
 screen = pg.display.set_mode(size)
 pg.display.set_caption("Gran Turismo 7")
-fps = 0
+fps = 60
 clock = pg.time.Clock()
 
 
@@ -49,8 +49,11 @@ y_money=random.randint(335,1000)
 x_money=random.randint(350,1150)
 
 money_random=[]
+money_random.append(random.randint(335,1000))
 for i in range(500):
-    money_random.append(random.randint(335,1000))
+    money_random.append(money_random[i]+random.randint(-150,150))
+
+speed_car=30
 
 while True:
     for event in pg.event.get():
@@ -108,27 +111,27 @@ while True:
         #     c_rect.x+=20
     if keys[pg.K_w]:
         if keys[pg.K_SPACE]:
-            if fps<100:
-                fps+=0.5
-            elif fps<300 and fps>=100:
-                fps+=0.1
-            elif fps>=300:
-                fps=300
-                fps+=0.01
+            if speed_car<50:
+                speed_car+=0.25
+            elif speed_car<150 and speed_car>=50:
+                speed_car+=0.05
+            elif speed_car>=150:
+                speed_car=150
+                speed_car+=0.005
         else:
-            if fps<10:
-                fps+=5
-            elif fps<30:
-                fps+=3
-            elif fps<45:
-                fps+=1
-            elif fps<60:
-                fps+=0.5
+            if speed_car<5:
+                speed_car+=2.5
+            elif speed_car<15:
+                speed_car+=1.5
+            elif speed_car<27.5:
+                speed_car+=0.5
+            elif speed_car<30:
+                speed_car+=0.25
             else:
-                fps=60
-        gran(line_1,line_2,line_3,line_4,line_5,money)
+                speed_car=30
+        gran(line_1,line_2,line_3,line_4,line_5,money,speed_car)
     else:
-        fps=0
+        speed_car=0
 
                 
 
@@ -138,6 +141,6 @@ while True:
 
 
     speedometr('Speed:',1300,100)
-    speedometr(f'{int(fps)}',1300,150)
+    speedometr(f'{int(speed_car*2)}',1300,150)
     pg.display.flip()
     clock.tick(fps)
