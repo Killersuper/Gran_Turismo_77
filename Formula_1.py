@@ -45,8 +45,9 @@ line_2=pg.Rect(600,500,15,135)
 line_3=pg.Rect(750,500,15,135)
 line_4=pg.Rect(900,500,15,135)
 line_5=pg.Rect(1050,500,15,135)
-money_test=pg.Rect(size[0] // 2,size[1] // 2,70,25)
-gran=Race
+money=pg.Rect(0,0,70,25)
+speed_car=30
+gran=Race(line_1,line_2,line_3,line_4,line_5,money,speed_car)
 m=random.randint(1,2)
 
 f_speed=pg.font.Font('font.otf', 50) 
@@ -99,7 +100,7 @@ while True:
             line_copy_3=pg.Rect(750,line_1.y-a,15,135)
             line_copy_4=pg.Rect(900,line_1.y-a,15,135)
             line_copy_5=pg.Rect(1050,line_1.y-a,15,135)
-            money_test_copy=pg.Rect(x_money,money_test.y-y_money-a,70,25)
+            money_test_copy=pg.Rect(x_money,money.y-y_money-a,70,25)
             pg.draw.rect(screen, pg.Color('white'), line_copy_1)
             pg.draw.rect(screen, pg.Color('white'), line_copy_2)
             pg.draw.rect(screen, pg.Color('white'), line_copy_3)
@@ -171,7 +172,7 @@ while True:
                 speed_car+=0.25
             else:
                 speed_car=30
-        gran(line_1,line_2,line_3,line_4,line_5,money_test, speed_car)
+        gran.plus(line_1,line_2,line_3,line_4,line_5,money,speed_car)
     else:
         speed_car=0
         c_rect_enemy_1.y-=80

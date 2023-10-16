@@ -432,9 +432,9 @@ class Football(pg.sprite.Sprite):
 
 
 class Mouse_starship(pg.sprite.Sprite):
-    def __init__(self):
-        pg.sprite.Sprite.__init__(self)
-
+    def __init__(self,image):
+        pg.sprite.Sprite.__init__(self) 
+        
         self.image = pg.image.load("mouse_starship.png")
         size = random.randint(70, 150)
 
