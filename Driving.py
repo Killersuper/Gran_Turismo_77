@@ -10,10 +10,14 @@ pg.display.set_caption("Gran Turismo 7")
 fps = 60
 clock = pg.time.Clock()
 
+# self.dog_image=load_image('images/dog.png',dog_width,dog_height)
+# self.screen.blit(self.happiness_image, (padding,padding))
 
-car = pg.image.load('Yellow.png')
+car = pg.image.load('images/White.png')
 c = pg.transform.scale(car, (120,240))
-c_rect= car.get_rect(center = (size[0]// 2+430, size[1]// 2+1290))
+x_c=(size[0]) // 2
+y_c=(size[1]+400) // 2
+c_rect=c.get_rect(center = (x_c,y_c))
 
 
 # character=pg.image.load('Character.png')
@@ -25,6 +29,7 @@ line_2=pg.Rect(600,500,15,135)
 line_3=pg.Rect(750,500,15,135)
 line_4=pg.Rect(900,500,15,135)
 line_5=pg.Rect(1050,500,15,135)
+lines=[line_1,line_2,line_3,line_4,line_5]
 money=pg.Rect(0,0,70,25)
 speed_car=30
 gran=Race(line_1,line_2,line_3,line_4,line_5,money,speed_car)
@@ -49,14 +54,14 @@ else:
 y_money=random.randint(335,1000)
 x_money=random.randint(350,1150)
 
-money_random=[]
+money_random=[375,525,675,825,975,1125]
 money_random.append(random.randint(335,1000))
 for i in range(500):
 #     if money_random[i] >1200:
 #         money_random[i]-random.randint(300,450)
 #     elif money_random[i] <300:
 #         money_random[i]+random.randint(300,450)
-    money_random.append(money_random[i]+random.randint(-150,150))
+    money_random.append(money_random[random.randint(0,5)])
 
 point=0
 
@@ -73,55 +78,56 @@ while True:
     pg.draw.rect(screen, pg.Color('white'), line_2)
     pg.draw.rect(screen, pg.Color('white'), line_3)
     pg.draw.rect(screen, pg.Color('white'), line_4)
-    pg.draw.rect(screen, pg.Color('white'), line_5)
+    # pg.draw.rect(screen, pg.Color('white'), line_5)
 
 
     keys = pg.key.get_pressed()
-    
     if line_1.y>200:
-        a=0
-        for i in range(1000):
-            a+=335
-            line_copy_1=pg.Rect(450,line_1.y-a,15,135)
-            line_copy_2=pg.Rect(600,line_1.y-a,15,135)
-            line_copy_3=pg.Rect(750,line_1.y-a,15,135)
-            line_copy_4=pg.Rect(900,line_1.y-a,15,135)
-            line_copy_5=pg.Rect(1050,line_1.y-a,15,135)
-            if line_copy_1.y<750 and line_copy_1.y>-150:
-                pg.draw.rect(screen, pg.Color('white'), line_copy_1)
-                pg.draw.rect(screen, pg.Color('white'), line_copy_2)
-                pg.draw.rect(screen, pg.Color('white'), line_copy_3)
-                pg.draw.rect(screen, pg.Color('white'), line_copy_4)
-                pg.draw.rect(screen, pg.Color('white'), line_copy_5)
-        b=0
-        for j in money_random:
-            b += 335  
-            money_copy = pg.Rect(j, money.y - b, 50,50)
-            if money_copy.x >= 1100:
-                money_copy.x = 1000 
-            elif money_copy.x <= 300:  # Исправлено условие здесь
-                money_copy.x = 500 
-            if money_copy.y < 750 and money_copy.y > -150 and not c_rect.colliderect(money_copy):
-                # pg.draw.rect(screen, pg.Color("green"), money_copy)
-                pg.draw.ellipse(screen, pg.Color(255,223,0),money_copy)
-                print(j)
-            if c_rect.colliderect(money_copy):
-                point+=1 
+            for i in lines:
+                a=0
+                for g in range(1000):  #g можно испльзовать как счетчик метров 
+                    a+=335
+                    line_x=pg.Rect(i.x,line_1.y-a,15,135)
+                    if line_x.y<size[1] and line_x.y>-150:
+                        pg.draw.rect(screen,pg.Color('white'),line_x)
+    # if line_1.y>200:
+    #     a=0
+    #     for g in range(1000):
+    #         a+=335
+    #         line_copy_1=pg.Rect(450,line_1.y-a,15,135)
+    #         line_copy_2=pg.Rect(600,line_1.y-a,15,135)
+    #         line_copy_3=pg.Rect(750,line_1.y-a,15,135)
+    #         line_copy_4=pg.Rect(900,line_1.y-a,15,135)
+    #         line_copy_5=pg.Rect(1050,line_1.y-a,15,135)
+    #         if line_copy_1.y<750 and line_copy_1.y>-150:
+    #             pg.draw.rect(screen, pg.Color('white'), line_copy_1)
+    #             pg.draw.rect(screen, pg.Color('white'), line_copy_2)
+    #             pg.draw.rect(screen, pg.Color('white'), line_copy_3)
+    #             pg.draw.rect(screen, pg.Color('white'), line_copy_4)
+    #             pg.draw.rect(screen, pg.Color('white'), line_copy_5)
+        # b=0
+        # for j in money_random:
+        #     b += 335  
+        #     money_copy = pg.Rect(j, money.y - b, 50,50)
+        #     if money_copy.y < 750 and money_copy.y > -150 and not c_rect.colliderect(money_copy):
+        #         # pg.draw.rect(screen, pg.Color("green"), money_copy)
+        #         pg.draw.ellipse(screen, pg.Color(255,223,0),money_copy)
+        #         # print(j)
+        #     if c_rect.colliderect(money_copy):
+        #         point+=1 
 
 
     
 
     screen.blit(c,c_rect)
-    # pg.draw.rect(screen, pg.Color('red'),test)
-    keys = pg.key.get_pressed()
     if keys[pg.K_d]:
         c_rect.x += 20
-        # if c_rect.colliderect(wall_r):
-        #     c_rect.x-=20
+        if c_rect.colliderect(wall_r):
+            c_rect.x-=20
     if keys[pg.K_a]:
         c_rect.x -= 20
-        # if c_rect.colliderect(wall_l):
-        #     c_rect.x+=20
+        if c_rect.colliderect(wall_l):
+            c_rect.x+=20
     # if keys[pg.K_s]:
     #     if keys[pg.K_SPACE]:
     #         if speed_car<50:
@@ -145,16 +151,16 @@ while True:
     #     gran.minus()
     # else:
     #     speed_car=0
-    
+
     if keys[pg.K_w]:
         if keys[pg.K_SPACE]:
             if speed_car<50:
                 speed_car+=0.25
+                print(speed_car)
             elif speed_car<150 and speed_car>=50:
                 speed_car+=0.05
             elif speed_car>=150:
                 speed_car=150
-                speed_car+=0.005
         else:
             if speed_car<5:
                 speed_car+=2.5
@@ -168,7 +174,10 @@ while True:
                 speed_car=30
         gran.plus(line_1,line_2,line_3,line_4,line_5,money,speed_car)
     else:
-        speed_car=0
+        if keys[pg.K_s]:
+            if speed_car<100 and speed_car>0:
+                speed_car-=1
+        gran.plus(line_1,line_2,line_3,line_4,line_5,money,speed_car)
 
                 
 
