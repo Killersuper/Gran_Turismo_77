@@ -1,7 +1,6 @@
 import random
 import pygame as pg
 import time
-from New_sprite import*
 
 pg.init()
 fps = 60
@@ -15,7 +14,7 @@ def load_image(file,width,height):
     image=pg.transform.scale(image,(width,height))
     return image
 
-race=pg.Rect(300,0, 900, 750)
+race=pg.Rect(300, 0, 900, 750)
 line_1=pg.Rect(450,500,15,135)
 line_2=pg.Rect(600,500,15,135)
 line_3=pg.Rect(750,500,15,135)
@@ -28,11 +27,14 @@ max_speed=300 #TODO
 acc=10
 
 class Road:
-    def __init__(self,mode,coins,rect_coins): #coins
+    def __init__(self,mode,coins,rect_coins,rect_car): #coins
         self.mode=mode
         self.speed=0
         self.coins=coins
         self.rect_coins=rect_coins
+        self.rect_car=rect_car
+        self.wall_l=pg.draw.line(screen, pg.Color('black'), (300, 0), (300, 750), 6)
+        self.wall_r=pg.draw.line(screen, pg.Color('black'), (1200, 0), (1200, 750), 6)
     def trassa(self):
         if line_1.y>200:
             for i in lines:
@@ -47,13 +49,12 @@ class Road:
                 for f in range(1000):
                     c+=335
                     self.rect_coins=self.coins.get_rect()
-                    self.rect_coins.center=(size[0]//2,size[1]-c)
+                    self.rect_coins.center=(675,size[1]-c)
                     if self.rect_coins[1]<size[1] and self.rect_coins[1]>-150:
                         screen.blit(self.coins,self.rect_coins)
                         
                         
-    def go(self,rect_car):
-        self.rect_car=rect_car
+    def go(self):
         self.keys = pg.key.get_pressed()
         if self.keys[pg.K_d]:
             self.rect_car.x += 20
@@ -95,7 +96,7 @@ class Road:
         pg.draw.rect(screen, pg.Color('white'), line_5)
 
 
-class Free_ride():
+class Free_ride:
     def __init__(self):
         self.line_1=lines[0]
         self.line_2=lines[1]
@@ -108,8 +109,8 @@ class Free_ride():
         self.rect_car.center=(size[0]//2,size[1]-size[1]//4)
         self.coins=load_image('images/money.png',50,50)
         self.rect_coins=self.coins.get_rect()
-        self.rect_coins.center=(size[0]//2,size[1]//2)
-        self.road=Road('free_ride',self.coins,self.rect_coins)
+        self.rect_coins.center=(1,size[1]//2)
+        self.road=Road('free_ride',self.coins,self.rect_coins,self.rect_car)
         
 
     def update(self):
@@ -120,7 +121,7 @@ class Free_ride():
 
         
     def draw(self):
-        self.road.go(self.rect_car)
+        self.road.go()
         self.road.draw()
         self.road.trassa()
         screen.blit(self.car,self.rect_car)
